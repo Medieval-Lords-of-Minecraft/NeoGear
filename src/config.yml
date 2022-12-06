@@ -1,0 +1,60 @@
+lvl-interval: 5
+lvl-max: 60
+rarities:
+  common:
+    display-name: "&7Common"
+    color-code: "&7"
+  uncommon:
+    display-name: "&aUncommon"
+    color-code: "&a"
+  rare:
+    display-name: "&9Rare"
+    color-code: "&9"
+  epic:
+    display-name: "&6Epic"
+    color-code: "&6"
+  legendary:
+    display-name: "&4&lLegendary"
+    color-code: "&4&l"
+    
+# Must add up to be 1
+# Rarity is lowercase (and case sensitive)
+rarity-sets:
+  mob:
+  - common:0.6
+  - uncommon:0.4
+  miniboss:
+  - uncommon: 0.8
+  - rare: 0.2
+  boss:
+  - rare: 0.5
+  - epic: 0.4
+  - legendary: 0.1
+  
+# Item name case sensitive
+item-sets:
+  weapon:
+  - axe
+  - sword
+  - spellsword
+  - bow
+  - shield
+  random:
+  - axe
+  - sword
+  - spellsword
+  - bow
+  - shield
+  - rboots
+  - rhelm
+  - rchest
+  - rlegs
+  - iboots
+  - ihelm
+  - ichest
+  - ilegs
+  test:
+  - axe
+  
+# TODO:
+# Make sure items can't be modified in anvils
