@@ -402,6 +402,92 @@ public class Gear extends JavaPlugin implements org.bukkit.event.Listener {
 			}
 		}
 	}
+	
+		@EventHandler(priority = EventPriority.HIGHEST)
+	public void onEnchantItem(EnchantItemEvent e) {
+		ItemStack item = e.getItem();
+		if (item != null) {
+			if (isQuestGear(item)) {
+				e.setCancelled(true);
+				Util.sendMessage(e.getEnchanter(), "&cYou cannot enchant RPG items!");
+				return;
+			}
+		}
+	}
+
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onPrepareAnvilEvent(PrepareAnvilEvent e) {
+		ItemStack[] contents = e.getInventory().getContents();
+		for (int i = 0; i < contents.length; i++) {
+			ItemStack item = contents[i];
+			if (item != null) {
+				if (isQuestGear(item)) {
+					e.setResult(null);
+					return;
+				}
+			}
+		}
+	}
+
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onInteract(PlayerInteractEvent e) {
+		Player p = e.getPlayer();
+		ItemStack item = e.getItem();
+		if (item == null || item.getType().isAir())
+			return;
+        if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (isArmor(item)) {
+                e.setUseItemInHand(Result.DENY);
+                p.sendMessage("§c[§4§lMLMC§4] §cEquipping armor via right click is disabled in quest worlds!");
+            }
+        }
+	}
+
+	@EventHandler
+	public void onInventoryClick(InventoryClickEvent e) {
+		// Disable netheriting quest gear
+		if (e.getView().getTopInventory().getType().equals(InventoryType.SMITHING)) {
+			SmithingInventory smith = (SmithingInventory) e.getView().getTopInventory();
+			if (isQuestGear(smith.getContents()[0]) && e.getSlot() == 2) {
+				e.setCancelled(true);
+				e.getView().getPlayer().sendMessage("§c[§4§lMLMC§4] §cYou cannot apply netherite to quest gear!");
+			}
+		}
+	}
+
+	public boolean isQuestGear(ItemStack item) {
+		if (item == null || !item.hasItemMeta()) {
+			return false;
+		}
+		if (new NBTItem(item).hasKey("gear")) {
+			return true;
+		}
+		return item.getItemMeta().hasLore()
+				&& item.getItemMeta().getLore().get(0).contains("Tier") && !item.getType().equals(Material.PLAYER_HEAD);
+	}
+
+	public boolean isArmor(ItemStack item) {
+		if (item == null)
+			return false;
+		String mat = item.getType().name();
+		return mat.contains("HELMET") || mat.contains("CHESTPLATE") || mat.contains("LEGGINGS")
+				|| mat.contains("BOOTS");
+	}
+
+	@EventHandler
+	public void onTridentThrow(ProjectileLaunchEvent e) {
+		Projectile proj = e.getEntity();
+		if (proj.getShooter() instanceof Player) {
+			Player p = (Player) proj.getShooter();
+			String world = e.getEntity().getLocation().getWorld().getName();
+			if (world.equals("Argyll") || world.equals("ClassPVP") || world.equals("Dev")) {
+				if (e.getEntity().getType().equals(EntityType.TRIDENT)) {
+					e.setCancelled(true);
+					p.sendMessage("§4[§c§lMLMC§4] §cYou cannot throw tridents in this world!");
+				}
+			}
+		}
+	}
 
 	public Economy getEcon() {
 		return econ;
