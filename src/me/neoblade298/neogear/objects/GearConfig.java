@@ -38,6 +38,7 @@ public class GearConfig {
 	public ArrayList<String> prefixes, displayNames;
 	public ArrayList<String> lore;
 	public int duraBase;
+	public int model;
 	public ArrayList<String> requiredAugments;
 	public ArrayList<Enchant> requiredEnchants, optionalEnchants;
 	public int enchantmentMin, enchantmentMax;
@@ -60,7 +61,7 @@ public class GearConfig {
 		decimalAttrs.add("rrg");
 	}
 	
-	public GearConfig(String id, String type, String title, Material material, ArrayList<String> prefixes, ArrayList<String> displayNames,
+	public GearConfig(String id, String type, String title, int model, Material material, ArrayList<String> prefixes, ArrayList<String> displayNames,
 			int duraBase, ArrayList<Enchant> requiredEnchants, ArrayList<Enchant> optionalEnchants, ArrayList<String> requiredAugments,
 			int enchantmentMin, int enchantmentMax, HashMap<String, AttributeSet> attributes, HashMap<Rarity, RarityBonuses> rarities, int slotsMax,
 			int startingSlotsBase, int startingSlotsRange, double price, int version, ArrayList<String> lore) {
@@ -81,6 +82,7 @@ public class GearConfig {
 			this.title = title;
 		}
 		this.type = type;
+		this.model = model;
 		this.material = material;
 		this.prefixes = prefixes;
 		this.displayNames = displayNames;
@@ -172,6 +174,8 @@ public class GearConfig {
 		else {
 			meta.setDisplayName(rarity.colorCode + prefix + display);
 		}
+		
+		if (model != -1) meta.setCustomModelData(model);
 		
 		
 		// Add required enchantments
@@ -415,6 +419,7 @@ public class GearConfig {
 		nbti.applyNBT(item);
 		
 		ItemMeta meta = item.getItemMeta();
+		if (model != -1 && meta.getCustomModelData() < 10000) meta.setCustomModelData(model);
 		List<String> lore = meta.getLore();
 		ListIterator<String> loreIter = lore.listIterator();
 		while (loreIter.hasNext()) {

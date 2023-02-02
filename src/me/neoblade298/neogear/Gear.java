@@ -169,6 +169,7 @@ public class Gear extends JavaPlugin implements org.bukkit.event.Listener {
 				String id = gearCfg.getString("id");
 				String type = gearCfg.getString("type");
 				String title = gearCfg.getString("title");
+				int model = gearCfg.getInt("model", -1);
 				Material material = Material.getMaterial(gearCfg.getString("material").toUpperCase());
 				double price = gearCfg.getDouble("price", -1);
 				int version = gearCfg.getInt("version");
@@ -229,7 +230,7 @@ public class Gear extends JavaPlugin implements org.bukkit.event.Listener {
 				ConfigurationSection overrideSec = gearCfg.getConfigurationSection("lvl-overrides");
 				HashMap<Integer, GearConfig> gearLvli = new HashMap<Integer, GearConfig>();
 				for (int i = 0; i <= Gear.lvlMax; i += Gear.lvlInterval) {
-					GearConfig gearConf = new GearConfig(id, type, title, material, prefixes, displayNames,
+					GearConfig gearConf = new GearConfig(id, type, title, model, material, prefixes, displayNames,
 							duraMinBase, reqEnchList, optEnchList, reqAugmentList, enchMin, enchMax, attributes,
 							rarities, slotsMax, startingSlotsBase, startingSlotsRange, price, version, lore);
 
