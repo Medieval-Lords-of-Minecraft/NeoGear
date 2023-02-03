@@ -419,7 +419,7 @@ public class GearConfig {
 		nbti.applyNBT(item);
 		
 		ItemMeta meta = item.getItemMeta();
-		if (model != -1 && meta.getCustomModelData() < 10000) meta.setCustomModelData(model);
+		if (model != -1 && (!meta.hasCustomModelData() || meta.getCustomModelData() < 10000)) meta.setCustomModelData(model);
 		List<String> lore = meta.getLore();
 		ListIterator<String> loreIter = lore.listIterator();
 		while (loreIter.hasNext()) {
