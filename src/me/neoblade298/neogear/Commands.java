@@ -201,7 +201,7 @@ public class Commands implements CommandExecutor{
 				return main.itemSets.get(DEFAULT_SET).pickItem();
 			}
 		}
-		Bukkit.getLogger().warning("[NeoGear] Failed to find item set of " + p.getName() + ", defaulting to " + DEFAULT_SET);
+		Bukkit.getLogger().warning("[NeoGear] Failed to find item set of " + param + ", defaulting to " + DEFAULT_SET);
 		return main.itemSets.get(DEFAULT_SET).pickItem();
 	}
 	
